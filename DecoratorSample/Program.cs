@@ -1,10 +1,12 @@
-using DecoratorSample.Models;
 using DecoratorSample.Services.GenericApproach;
 using DecoratorSample.Services.SimpleExample;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -21,6 +23,12 @@ builder.Services.Scan(scan =>
         .AsImplementedInterfaces()
         .WithTransientLifetime());
 builder.Services.Decorate(typeof(IRepository<>) ,typeof(GenericRepositoryValidator<>));
+
+//Disabled the controller level validation on purpose to demonstrate the sample validation. Avoid this in production code.
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 #endregion
 
 var app = builder.Build();

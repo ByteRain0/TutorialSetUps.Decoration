@@ -39,6 +39,8 @@ public class PocController : ControllerBase
     {
         try
         {
+            // Introduce an error somewhere along the call chain.
+            book.Name = string.Empty;
             _genericBookRepository.Save(book);
         }
         catch (Exception e)

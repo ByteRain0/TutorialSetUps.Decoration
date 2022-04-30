@@ -15,8 +15,14 @@ public class BookRepositoryValidator : IBookRepository
     {
         if (book.Id < 0)
         {
-            throw new InvalidOperationException("Id cannot be less than 0");
+            throw new ArgumentException("Id cannot be less than 0");
         }
+        
+        if (book.Name == string.Empty)
+        {
+            throw new ArgumentException("Name cannot be empty");
+        }
+        
         _bookRepository.SaveBook(book);
     }
 }

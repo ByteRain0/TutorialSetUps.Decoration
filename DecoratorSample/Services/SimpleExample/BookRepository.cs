@@ -4,7 +4,6 @@ namespace DecoratorSample.Services.SimpleExample;
 
 public class BookRepository : IBookRepository
 {
-
     private readonly List<Book> _books;
 
     public BookRepository()
